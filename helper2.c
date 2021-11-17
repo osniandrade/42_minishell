@@ -1,31 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   helper2.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ocarlos- <ocarlos-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/02/04 10:14:50 by ocarlos-          #+#    #+#             */
-/*   Updated: 2021/11/12 00:03:24 by ocarlos-         ###   ########.fr       */
+/*   Created: 2021/11/17 23:22:15 by ocarlos-          #+#    #+#             */
+/*   Updated: 2021/11/17 23:22:48 by ocarlos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /*
-** Allocates sufficient memory for a copy of the string 's1', does the
-** copy and returns a pointer to it.
+** Copies 'n' bytes from memory area 'src' to memory area 'dest'.
+** Returns a pointer to 'dest' memory area or 'NULL' if src is empty.
 */
 
-char	*ft_strdup(const char *s1)
+void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
-	char	*dst;
-	int		size;
+	char			*d;
+	const char		*s;
 
-	size = ft_strlen(s1);
-	if (!(dst = malloc(size + 1)))
+	d = dest;
+	s = src;
+	if (!s && !d)
 		return (NULL);
-	ft_memcpy(dst, s1, size);
-	dst[size] = '\0';
-	return (dst);
+	while (n--)
+		*d++ = *s++;
+	return (dest);
 }
