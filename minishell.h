@@ -6,7 +6,7 @@
 /*   By: ocarlos- <ocarlos-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 23:16:23 by ocarlos-          #+#    #+#             */
-/*   Updated: 2021/11/17 23:25:16 by ocarlos-         ###   ########.fr       */
+/*   Updated: 2021/11/17 23:47:01 by ocarlos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,14 @@
 # include <sys/wait.h>
 # include <unistd.h>
 # include <string.h>
+
+typedef struct s_cmd
+{
+	char	cmd[100];
+	char	command[100];
+	char	*parameters[20];
+	char	*envp[]; // = {(char *) "PATH=/bin", 0};
+}			t_cmd;
 
 void		*ft_memcpy(void *dest, const void *src, size_t n);
 char		*ft_strdup(const char *s1);

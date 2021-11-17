@@ -6,11 +6,15 @@
 /*   By: ocarlos- <ocarlos-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 14:34:57 by ocarlos-          #+#    #+#             */
-/*   Updated: 2021/11/12 00:08:34 by ocarlos-         ###   ########.fr       */
+/*   Updated: 2021/11/17 23:51:13 by ocarlos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+/*
+** reads the command and directs it to the bin folder
+*/
 
 void	read_command(char cmd[], char *par[])
 {
@@ -48,6 +52,11 @@ void	read_command(char cmd[], char *par[])
 	par[i] = NULL;
 }
 
+/*
+** formats the terminal and prints the '#' symbol
+** in each iteraction
+*/
+
 void	type_prompt(void)
 {
 	static int	first_time;
@@ -65,24 +74,23 @@ void	type_prompt(void)
 
 int main(void)
 {
-	char cmd[100];
-	char command[100];
-	char *parameters[20];
-	char *envp[] = {(char *) "PATH=/bin", 0};
+	t_cmd	cmd;
 
+	cmd.envp[0] = (char *) "PATH=/bin";
+	cmd.envp[1] = NULL;
 	while (TRUE)
 	{
 		type_prompt();
-		read_command(command, parameters);
+		read_command(cmd.command, cmd.parameters);
 		if (fork() != FALSE)
 			wait (NULL);
 		else
 		{
-			ft_strlcpy(cmd, "/bin/", 6);
-			ft_strlcat(cmd, command, 100);  // adjust size to actual present values
-			execve(cmd, parameters, envp) ;
+			ft_strlcpy(cmd.cmd, "/bin/", 6);
+			ft_strlcat(cmd.cmd, cmd.command, 100);  // adjust size to actual present values
+			execve(cmd.cmd, cmd.parameters, cmd.envp) ;
 		}
-		if (ft_strncmp(command, "exit", 5) == 0)
+		if (ft_strncmp(cmd.command, "exit", 5) == 0)
 			break;
 	}
 	return (0);
