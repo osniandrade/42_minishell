@@ -6,7 +6,7 @@
 /*   By: ocarlos- <ocarlos-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 14:34:57 by ocarlos-          #+#    #+#             */
-/*   Updated: 2021/11/17 23:51:13 by ocarlos-         ###   ########.fr       */
+/*   Updated: 2021/11/18 00:05:20 by ocarlos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,38 +18,33 @@
 
 void	read_command(char cmd[], char *par[])
 {
-	char	line[1024];
-	int		count;
-	int		i;
-	int		j;
-	char	*array[100];
-	char	*pch;
+	t_read	rc;
+	t_count	c;
 
-	count = 0;
-	i = 0;
-	j = 0;
+	rc = (t_read){0};
+	c = (t_count){0};
 	while (TRUE)
 	{
-		int c = fgetc(stdin);
-		line[count++] = (char) c;
-		if (c == '\n')
+		c.c = fgetc(stdin);
+		rc.line[rc.count++] = (char) c.c;
+		if (c.c == '\n')
 			break;
 	}
-	if (count == 1)
+	if (rc.count == 1)
 		return;
-	pch = strtok(line, " \n");
-	while (pch != NULL)
+	rc.pch = strtok(rc.line, " \n");
+	while (rc.pch != NULL)
 	{
-		array[i++] = ft_strdup(pch);
-		pch = strtok(NULL, " \n");
+		rc.array[c.i++] = ft_strdup(rc.pch);
+		rc.pch = strtok(NULL, " \n");
 	}
-	ft_strlcpy(cmd, array[0], 100);
-	while(j < i)
+	ft_strlcpy(cmd, rc.array[0], 100);
+	while(c.j < c.i)
 	{ 
-		par[j] = array[j];
-		j++;
+		par[c.j] = rc.array[c.j];
+		c.j++;
 	}
-	par[i] = NULL;
+	par[c.i] = NULL;
 }
 
 /*

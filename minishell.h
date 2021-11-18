@@ -6,7 +6,7 @@
 /*   By: ocarlos- <ocarlos-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 23:16:23 by ocarlos-          #+#    #+#             */
-/*   Updated: 2021/11/17 23:47:01 by ocarlos-         ###   ########.fr       */
+/*   Updated: 2021/11/18 00:04:28 by ocarlos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,21 @@ typedef struct s_cmd
 	char	*parameters[20];
 	char	*envp[]; // = {(char *) "PATH=/bin", 0};
 }			t_cmd;
+
+typedef struct s_count
+{
+	int		i;
+	int		j;
+	int		c;
+}			t_count;
+
+typedef struct s_read
+{
+	char	line[1024];
+	int		count;
+	char	*array[100];
+	char	*pch;
+}			t_read;
 
 void		*ft_memcpy(void *dest, const void *src, size_t n);
 char		*ft_strdup(const char *s1);
