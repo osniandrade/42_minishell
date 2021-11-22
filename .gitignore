@@ -1,9 +1,2 @@
-ft_memcpy.o
-minishell.h
-ft_strdup.o
-ft_strlcat.o
-ft_strlcpy.o
-ft_strlen.o
-ft_strncmp.o
-minishell.o
+*.o
 minishell
