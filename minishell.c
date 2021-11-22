@@ -6,7 +6,7 @@
 /*   By: ocarlos- <ocarlos-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 14:34:57 by ocarlos-          #+#    #+#             */
-/*   Updated: 2021/11/18 00:05:20 by ocarlos-         ###   ########.fr       */
+/*   Updated: 2021/11/22 21:25:01 by ocarlos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ int main(void)
 {
 	t_cmd	cmd;
 
+	cmd.envp = malloc(sizeof(char*) * 2);
 	cmd.envp[0] = (char *) "PATH=/bin";
 	cmd.envp[1] = NULL;
 	while (TRUE)
@@ -88,5 +89,6 @@ int main(void)
 		if (ft_strncmp(cmd.command, "exit", 5) == 0)
 			break;
 	}
+	free (cmd.envp);
 	return (0);
 }
