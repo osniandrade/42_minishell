@@ -6,7 +6,7 @@
 /*   By: ocarlos- <ocarlos-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 14:34:57 by ocarlos-          #+#    #+#             */
-/*   Updated: 2022/01/04 12:57:28 by ocarlos-         ###   ########.fr       */
+/*   Updated: 2022/01/04 13:12:48 by ocarlos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,14 @@ int	main(void)
 	char	*ptr;
 	char	**args;
 	int		wstatus;
+	int		i;
 	
-	for (;;)
+	while (TRUE)
 	{
-		input = calloc(PRMTSIZ + 1, sizeof(char));
-		args = calloc(MAXARGS + 1, sizeof(char *));
+		input = malloc((PRMTSIZ + 1) * sizeof(char));
+		args = malloc((MAXARGS + 1) * sizeof(char *));
+		memset(input, 0, (PRMTSIZ + 1));
+		memset(args, 0, (MAXARGS + 1));
 		ptr = input;
 
 		// prompt
@@ -34,7 +37,8 @@ int	main(void)
 			continue;
 		
 		// convert input line to list of arguments
-		for (int i = 0; i < (int) sizeof(args) && *ptr; ptr++)
+		i = 0;
+		while (i < (int) sizeof(args) && *ptr)
 		{
 			if (*ptr == ' ')
 				continue;
@@ -42,6 +46,7 @@ int	main(void)
 				break;
 			for (args[i++] = ptr; *ptr && *ptr != ' ' && *ptr != '\n'; ptr++);
 			*ptr = '\0';
+			ptr++;
 		}
 
 		// built-in: exit
