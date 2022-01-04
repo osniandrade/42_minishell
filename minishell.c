@@ -6,89 +6,53 @@
 /*   By: ocarlos- <ocarlos-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 14:34:57 by ocarlos-          #+#    #+#             */
-/*   Updated: 2021/11/22 21:25:01 by ocarlos-         ###   ########.fr       */
+/*   Updated: 2022/01/04 12:22:09 by ocarlos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*
-** reads the command and directs it to the bin folder
-*/
-
-void	read_command(char cmd[], char *par[])
+int	main(void)
 {
-	t_read	rc;
-	t_count	c;
-
-	rc = (t_read){0};
-	c = (t_count){0};
-	while (TRUE)
+	for (;;)
 	{
-		c.c = fgetc(stdin);
-		rc.line[rc.count++] = (char) c.c;
-		if (c.c == '\n')
-			break;
-	}
-	if (rc.count == 1)
-		return;
-	rc.pch = strtok(rc.line, " \n");
-	while (rc.pch != NULL)
-	{
-		rc.array[c.i++] = ft_strdup(rc.pch);
-		rc.pch = strtok(NULL, " \n");
-	}
-	ft_strlcpy(cmd, rc.array[0], 100);
-	while(c.j < c.i)
-	{ 
-		par[c.j] = rc.array[c.j];
-		c.j++;
-	}
-	par[c.i] = NULL;
-}
+		char	input[PRMTSIZ + 1] = { 0x0 };
+		char	*ptr = input;
+		char	*args[MAXARGS + 1] = { NULL };
+		int		wstatus;
 
-/*
-** formats the terminal and prints the '#' symbol
-** in each iteraction
-*/
+		// prompt
+		printf("%s ", getuid() == 0 ? "#" : "$");
+		fgets(input, PRMTSIZ, stdin);
 
-void	type_prompt(void)
-{
-	static int	first_time;
-	const char	*CLEAR_SCREEN_ANSI;
-
-	first_time = 0;
-	if (first_time)
-	{
-		CLEAR_SCREEN_ANSI = " \e[1;1H\e[2J";
-		write(STDOUT_FILENO, CLEAR_SCREEN_ANSI, 12);
-		first_time = 0;
-	}
-	printf("#");
-}
-
-int main(void)
-{
-	t_cmd	cmd;
-
-	cmd.envp = malloc(sizeof(char*) * 2);
-	cmd.envp[0] = (char *) "PATH=/bin";
-	cmd.envp[1] = NULL;
-	while (TRUE)
-	{
-		type_prompt();
-		read_command(cmd.command, cmd.parameters);
-		if (fork() != FALSE)
-			wait (NULL);
-		else
+		// ignore empty input
+		if (*ptr == '\n')
+			continue;
+		
+		// convert input line to list of arguments
+		for (int i = 0; i < (int) sizeof(args) && *ptr; ptr++)
 		{
-			ft_strlcpy(cmd.cmd, "/bin/", 6);
-			ft_strlcat(cmd.cmd, cmd.command, 100);  // adjust size to actual present values
-			execve(cmd.cmd, cmd.parameters, cmd.envp) ;
+			if (*ptr == ' ')
+				continue;
+			if (*ptr == '\n')
+				break;
+			for (args[i++] = ptr; *ptr && *ptr != ' ' && *ptr != '\n'; ptr++);
+			*ptr = '\0';
 		}
-		if (ft_strncmp(cmd.command, "exit", 5) == 0)
-			break;
+
+		// built-in: exit
+		if (strcmp(EXITCMD, args[0]) == 0)
+			return (0);
+		
+		// fork child and execute program
+		signal(SIGINT, SIG_DFL);
+		if (fork() == 0)
+			exit(execvp(args[0], args));
+		signal(SIGINT, SIG_IGN);
+
+		// wait for program to finish and print exit status
+		wait(&wstatus);
+		if (WIFEXITED(wstatus))
+			printf("<%d>", WEXITSTATUS(wstatus));
 	}
-	free (cmd.envp);
-	return (0);
 }
