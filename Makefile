@@ -6,7 +6,7 @@
 #    By: ocarlos- <ocarlos-@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/11 23:47:34 by ocarlos-          #+#    #+#              #
-#    Updated: 2022/01/04 12:14:24 by ocarlos-         ###   ########.fr        #
+#    Updated: 2022/01/04 12:58:46 by ocarlos-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,13 @@ DEBUG = -g -fsanitize=address
 all:		$(NAME)
 
 $(NAME):	$(OBJ)
+			@gcc $(FLAG) $(SRC) -o minishell
+
+debug:
 			@gcc $(FLAG) $(DEBUG) $(SRC) -o minishell
+
+run:
+			./minishell
 
 clean:
 			@/bin/rm -f $(OBJ)
