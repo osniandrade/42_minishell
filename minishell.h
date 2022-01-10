@@ -6,7 +6,7 @@
 /*   By: ocarlos- <ocarlos-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 23:16:23 by ocarlos-          #+#    #+#             */
-/*   Updated: 2022/01/06 15:15:50 by ocarlos-         ###   ########.fr       */
+/*   Updated: 2022/01/10 22:02:31 by ocarlos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,15 @@
 # define PRMTSIZ 255
 # define MAXARGS 63
 # define EXITCMD "exit"
+
+typedef struct s_data
+{
+	char	*input;
+	char	*ptr;
+	char	**args;
+	char	**envp;
+	char	*cmd;
+}			t_data;
 
 // helper1.c
 int		ft_strncmp(const char *s1, const char *s2, size_t n);

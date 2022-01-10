@@ -6,7 +6,7 @@
 /*   By: ocarlos- <ocarlos-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 14:34:57 by ocarlos-          #+#    #+#             */
-/*   Updated: 2022/01/10 13:38:50 by ocarlos-         ###   ########.fr       */
+/*   Updated: 2022/01/10 22:12:16 by ocarlos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,82 +14,75 @@
 
 int	main(void)
 {
-	char	*input;
-	char	*ptr;
-	char	**args;
-	//char	**envp;
-	//char	*envp[] = {"PATH=/bin\0", NULL};
+	t_data	d;
 	int		wstatus;
 	int		i;
 	
-	
-	//envp = malloc(sizeof(char*) * 2);
-	// teste
-	// ptr = getenv("PATH");
-	// int totalsize = (ft_strlen(ptr) + 6) * sizeof(char);
-	// envp[0] = malloc(totalsize);
-	// ft_memcpy(envp[0], "PATH=\0", (6 * sizeof(char)));
-	// ft_strlcat(envp[0], ptr, totalsize);
-	// fim teste
+	d.envp = malloc(sizeof(char*) * 2);
+	d.ptr = getenv("PATH");
+	i = (ft_strlen(d.ptr) + 6) * sizeof(char);
+	d.envp[0] = malloc(i);
+	ft_memcpy(d.envp[0], "PATH=\0", (6 * sizeof(char)));
+	ft_strlcat(d.envp[0], d.ptr, i);
 
-	//envp[0] = getenv("PATH");
-	//envp[1] = NULL;
+	d.envp[1] = NULL;
 	while (TRUE)
 	{
-		input = malloc((PRMTSIZ + 1) * sizeof(char));
-		args = malloc((MAXARGS + 1) * sizeof(char *));
-		ft_memset(input, 0, (PRMTSIZ + 1));
-		ft_memset(args, 0, (MAXARGS + 1));
-		ptr = input;
+		d.input = malloc((PRMTSIZ + 1) * sizeof(char));
+		d.args = malloc((MAXARGS + 1) * sizeof(char *));
+		ft_memset(d.input, 0, (PRMTSIZ + 1));
+		ft_memset(d.args, 0, (MAXARGS + 1));
+		d.ptr = d.input;
 
 		// prompt
 		printf("$>> ");
-		fgets(input, PRMTSIZ, stdin);
+		fgets(d.input, PRMTSIZ, stdin);
 
 		// ignore empty input
-		if (*ptr == '\n')
+		if (*d.ptr == '\n')
 			continue;
 		
 		// convert input line to list of arguments
 		i = 0;
-		while (i < (int) sizeof(args) && *ptr)
+		while (i < (int) sizeof(d.args) && *d.ptr)
 		{
-			if (*ptr == ' ')
+			if (*d.ptr == ' ')
 				continue;
-			if (*ptr == '\n')
+			if (*d.ptr == '\n')
 				break;
-			args[i++] = ptr;
-			while (*ptr && (*ptr != ' ') && (*ptr != '\n'))
-				ptr++;
-			*ptr = '\0';
-			ptr++;
+			d.args[i++] = d.ptr;
+			while (*d.ptr && (*d.ptr != ' ') && (*d.ptr != '\n'))
+				d.ptr++;
+			*d.ptr = '\0';
+			d.ptr++;
 		}
 
 		// built-in: exit
-		if (ft_strncmp(EXITCMD, args[0], ft_strlen(EXITCMD)) == 0)
+		if (ft_strncmp(EXITCMD, d.args[0], ft_strlen(EXITCMD)) == 0)
 		{
-			free(input);
-			free(args);
-			
-			// teste
-			//free(envp[0]);
-			// fim teste
-
-			//free(envp);
+			free(d.input);
+			free(d.args);
+			free(d.envp[0]);
+			free(d.envp);
 			return (0);
 		}
 		
 		// fork child and execute program
-		signal(SIGINT, SIG_DFL);
+		i = (ft_strlen(d.args[0]) + 6) * sizeof(char);
+		d.cmd = malloc(i);
+		ft_memcpy(d.cmd, "/bin/\0", (6 * sizeof(char)));
+		ft_strlcat(d.cmd, d.args[0], i);
+		signal(SIGINT, SIG_DFL);  // enables ctrl+c
 		if (fork() == 0)
 		{
-			//exit(execve(args[0], args, envp));
-			exit(execvp(args[0], args));
+			exit(execve(d.cmd, d.args, d.envp));
+			//exit(execvp(args[0], args));
 		}
-		signal(SIGINT, SIG_IGN);
+		signal(SIGINT, SIG_IGN);  // disables ctrl+c
 
-		free(input);
-		free(args);
+		free(d.cmd);
+		free(d.input);
+		free(d.args);
 
 		// wait for program to finish and print exit status
 		wait(&wstatus);
