@@ -6,12 +6,13 @@
 #    By: ocarlos- <ocarlos-@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/11 23:47:34 by ocarlos-          #+#    #+#              #
-#    Updated: 2022/01/04 12:58:46 by ocarlos-         ###   ########.fr        #
+#    Updated: 2022/01/04 13:24:23 by ocarlos-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
-SRC = minishell.c 
+SRC = minishell.c \
+		helper1.c
 
 OBJ = $(SRC:.c=.o)
 FLAG = -Wall -Wextra -Werror
