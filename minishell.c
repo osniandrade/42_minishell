@@ -6,7 +6,7 @@
 /*   By: ocarlos- <ocarlos-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 14:34:57 by ocarlos-          #+#    #+#             */
-/*   Updated: 2022/01/10 22:12:16 by ocarlos-         ###   ########.fr       */
+/*   Updated: 2022/01/10 22:50:31 by ocarlos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,8 @@ int	main(void)
 	d.envp[0] = malloc(i);
 	ft_memcpy(d.envp[0], "PATH=\0", (6 * sizeof(char)));
 	ft_strlcat(d.envp[0], d.ptr, i);
-
 	d.envp[1] = NULL;
+
 	while (TRUE)
 	{
 		d.input = malloc((PRMTSIZ + 1) * sizeof(char));
@@ -68,15 +68,15 @@ int	main(void)
 		}
 		
 		// fork child and execute program
-		i = (ft_strlen(d.args[0]) + 6) * sizeof(char);
+		i = (ft_strlen(d.args[0]) + 10) * sizeof(char);
 		d.cmd = malloc(i);
-		ft_memcpy(d.cmd, "/bin/\0", (6 * sizeof(char)));
+		ft_memcpy(d.cmd, "/usr/bin/\0", (10 * sizeof(char)));
 		ft_strlcat(d.cmd, d.args[0], i);
 		signal(SIGINT, SIG_DFL);  // enables ctrl+c
 		if (fork() == 0)
 		{
 			exit(execve(d.cmd, d.args, d.envp));
-			//exit(execvp(args[0], args));
+			//exit(execvp(d.args[0], d.args));
 		}
 		signal(SIGINT, SIG_IGN);  // disables ctrl+c
 
