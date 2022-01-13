@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ocarlos- <ocarlos-@student.42sp.org.br>    +#+  +:+       +#+         #
+#    By: ebresser <ebresser@student.42sp.org.br>    +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/11/11 23:47:34 by ocarlos-          #+#    #+#              #
-#    Updated: 2022/01/04 13:24:23 by ocarlos-         ###   ########.fr        #
+#    Updated: 2022/01/12 21:00:41 by ebresser         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,14 +17,16 @@ SRC = minishell.c \
 OBJ = $(SRC:.c=.o)
 FLAG = -Wall -Wextra -Werror
 DEBUG = -g -fsanitize=address
+ADD_LIBS = -lreadline
+
 
 all:		$(NAME)
 
 $(NAME):	$(OBJ)
-			@gcc $(FLAG) $(SRC) -o minishell
+			@gcc $(FLAG) $(SRC) $(ADD_LIBS) -o minishell
 
 debug:
-			@gcc $(FLAG) $(DEBUG) $(SRC) -o minishell
+			@gcc $(FLAG) $(DEBUG) $(SRC) $(ADD_LIBS) -o minishell
 
 run:
 			./minishell

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocarlos- <ocarlos-@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: ebresser <ebresser@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 23:16:23 by ocarlos-          #+#    #+#             */
-/*   Updated: 2022/01/10 22:02:31 by ocarlos-         ###   ########.fr       */
+/*   Updated: 2022/01/13 15:50:48 by ebresser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,11 @@
 # include <sys/wait.h>
 # include <unistd.h>
 # include <string.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 
 # define TRUE 1
 # define FALSE 0
-# define PRMTSIZ 255
 # define MAXARGS 63
 # define EXITCMD "exit"
 
@@ -30,7 +31,6 @@ typedef struct s_data
 	char	*input;
 	char	*ptr;
 	char	**args;
-	char	**envp;
 	char	*cmd;
 }			t_data;
 
