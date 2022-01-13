@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ebresser <ebresser@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: ocarlos- <ocarlos-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 14:34:57 by ocarlos-          #+#    #+#             */
-/*   Updated: 2022/01/13 15:50:06 by ebresser         ###   ########.fr       */
+/*   Updated: 2022/01/13 19:14:07 by ocarlos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int	main(int argc, char *argv[], char *envp[])
 	if (argv[1] == NULL)
 		argc = argc - 1;		
 
+	signal(SIGINT, SIG_IGN);  // disables ctrl+c
+
 	while (TRUE)
 	{
 		if ((d.input = readline("$>> ")) != NULL)
@@ -30,6 +32,14 @@ int	main(int argc, char *argv[], char *envp[])
 			d.input[i] = '\n';
 			d.args = calloc((MAXARGS + 1) , sizeof(char *));
 			d.ptr = d.input;		
+
+			// ignore empty input
+			if (*d.ptr == '\n')
+			{
+				free(d.input);
+				free(d.args);
+				continue;
+			}
 
 			// convert input line to list of arguments
 			i = 0;
