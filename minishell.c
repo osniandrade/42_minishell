@@ -6,7 +6,7 @@
 /*   By: ocarlos- <ocarlos-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 14:34:57 by ocarlos-          #+#    #+#             */
-/*   Updated: 2022/01/13 19:14:07 by ocarlos-         ###   ########.fr       */
+/*   Updated: 2022/01/15 00:41:33 by ocarlos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,32 @@ int	main(int argc, char *argv[], char *envp[])
 	t_data	d;
 	int		wstatus;
 	int		i;
+
+	char	*sizedirpath;
+	char	*sizeenvpath;
 	
 	if (argv[1] == NULL)
 		argc = argc - 1;		
 
 	signal(SIGINT, SIG_IGN);  // disables ctrl+c
+
+	// TESTE HASHTABLE
+	i = 20;
+	while (ft_strncmp(sizeenvpath, "PATH", 4) != 0)
+	{
+		printf("%i\n", ft_strncmp(sizeenvpath, "PATH", 4));
+		if (ft_strncmp(envp[i], "PATH", 4) == 0)
+			sizeenvpath = strdup(envp[i]);
+		i++;
+	}
+	sizedirpath = strtok(sizeenvpath, ":");
+	while (i < 10)
+	{
+		printf("%s\n", sizedirpath);
+		printf("%s\n", sizeenvpath);
+		i++;
+	}
+	// FIM TESTE HASHTABLE
 
 	while (TRUE)
 	{
