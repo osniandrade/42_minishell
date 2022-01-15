@@ -3,15 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   helper1.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ocarlos- <ocarlos-@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: ebresser <ebresser@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 13:22:45 by ocarlos-          #+#    #+#             */
-/*   Updated: 2022/01/06 15:32:49 by ocarlos-         ###   ########.fr       */
+/*   Updated: 2022/01/14 23:09:12 by ebresser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/*
 int		ft_strncmp(const char *s1, const char *s2, size_t n)
 {
 	unsigned int		i;
@@ -99,3 +100,5 @@ char	*ft_strdup(const char *s1)
 	dst[size] = '\0';
 	return (dst);
 }
+
+*/
