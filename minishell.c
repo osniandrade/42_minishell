@@ -6,7 +6,7 @@
 /*   By: ocarlos- <ocarlos-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 14:34:57 by ocarlos-          #+#    #+#             */
-/*   Updated: 2022/01/15 00:41:33 by ocarlos-         ###   ########.fr       */
+/*   Updated: 2022/01/17 19:10:12 by ocarlos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,30 +18,49 @@ int	main(int argc, char *argv[], char *envp[])
 	int		wstatus;
 	int		i;
 
-	char	*sizedirpath;
-	char	*sizeenvpath;
+	
 	
 	if (argv[1] == NULL)
 		argc = argc - 1;		
 
 	signal(SIGINT, SIG_IGN);  // disables ctrl+c
 
+
 	// TESTE HASHTABLE
-	i = 20;
-	while (ft_strncmp(sizeenvpath, "PATH", 4) != 0)
+	char	**dirpath;
+	//char	*sizeenvpath;
+	char	*env;
+	char	filepath[256];
+	DIR		*dp;
+	struct	dirent *dir;
+	struct	stat statbuf;
+	
+
+	i = 0;
+	env = strdup(getenv("PATH"));
+	dirpath = ft_split(env, ':');
+	while (dirpath != NULL)
 	{
-		printf("%i\n", ft_strncmp(sizeenvpath, "PATH", 4));
-		if (ft_strncmp(envp[i], "PATH", 4) == 0)
-			sizeenvpath = strdup(envp[i]);
+		if ((dp = opendir(dirpath[i])) != NULL)
+		{
+			while ((dir = readdir(dp)))
+			{
+				if (dir->d_ino != 0)
+				{
+					strcpy(filepath, dirpath[i]);
+					strcat(filepath, "/");
+					strcat(filepath, dir->d_name);
+					if (lstat(filepath, &statbuf) >= 0)
+						if (S_ISREG(statbuf.st_mode))
+							if (access(filepath, X_OK) == 0)
+								printf("insert %s in hash\n", dir->d_name); //hashinsert(d->d_name, filepath);
+				}
+			}
+			closedir(dp);
+		}
 		i++;
 	}
-	sizedirpath = strtok(sizeenvpath, ":");
-	while (i < 10)
-	{
-		printf("%s\n", sizedirpath);
-		printf("%s\n", sizeenvpath);
-		i++;
-	}
+	
 	// FIM TESTE HASHTABLE
 
 	while (TRUE)
