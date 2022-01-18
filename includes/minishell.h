@@ -6,7 +6,7 @@
 /*   By: ebresser <ebresser@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 23:16:23 by ocarlos-          #+#    #+#             */
-/*   Updated: 2022/01/15 13:12:43 by ebresser         ###   ########.fr       */
+/*   Updated: 2022/01/18 19:13:41 by ebresser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,10 @@ typedef	struct	s_data
 	char	*input;
 	char	*ptr;
 	char	**args;
-	char	*cmd;
-	char	**path; 
+	//char	*cmd;
+	char	**path;	
+	char    *path_aux;
+	//char	**envp;
 }				t_data;
 
 // helper1.c
