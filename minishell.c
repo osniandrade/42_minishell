@@ -6,7 +6,7 @@
 /*   By: ebresser <ebresser@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 14:34:57 by ocarlos-          #+#    #+#             */
-/*   Updated: 2022/01/18 19:26:38 by ebresser         ###   ########.fr       */
+/*   Updated: 2022/01/18 19:47:08 by ebresser         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,7 +168,9 @@ int	main(int argc, char *argv[], char *envp[])
 				free(d.input);
 				free(d.args); //?
 				free_path(&d); //
-				printf("\n%s\n", getenv("PATH"));//teste
+				if (d.path_aux)
+					free(d.path_aux);
+				//printf("\n%s\n", getenv("PATH"));//teste
 				return (0);
 			}
 
@@ -208,14 +210,12 @@ int	main(int argc, char *argv[], char *envp[])
 						}
     				}
     				printf("%s: command not found\n", d.args[0]);
-					kill(getpid(), SIGKILL);
+					kill(getpid(), SIGKILL); //n pode usargetpid!
 				}
 				else
-				{
-					waitpid(chlpid, &wstatus, WUNTRACED);
-					printf("\n%s: command path\n", d.path_aux);
-				}
-					
+					wait(&wstatus);
+					//waitpid(chlpid, &wstatus, WUNTRACED);
+										
 			}	
 			//-------------------------------------------------------		
 			
@@ -228,9 +228,9 @@ int	main(int argc, char *argv[], char *envp[])
 				free(d.path_aux);
 
 			// wait for program to finish and print exit status
-			wait(&wstatus);
-			if (WIFEXITED(wstatus))
-				printf("<%d>\n", WEXITSTATUS(wstatus));
+			//wait(&wstatus);
+			//if (WIFEXITED(wstatus))
+			//	printf("<%d>\n", WEXITSTATUS(wstatus));
 		}		
 	}	
 }
