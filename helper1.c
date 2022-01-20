@@ -6,7 +6,7 @@
 /*   By: ocarlos- <ocarlos-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/04 13:22:45 by ocarlos-          #+#    #+#             */
-/*   Updated: 2022/01/17 19:09:01 by ocarlos-         ###   ########.fr       */
+/*   Updated: 2022/01/20 23:06:58 by ocarlos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,5 +169,50 @@ char	**ft_split(char const *s, char c)
 		}
 	}
 	result[i[1]] = NULL;
+	free(temp);
 	return (result);
+}
+
+size_t	ft_strlcpy(char *dst, const char *src, size_t size)
+{
+	int		i;
+	int		old;
+
+	i = -1;
+	old = 0;
+	if (!dst || !src)
+		return (0);
+	while (src[old] != '\0')
+		old++;
+	if (size == 0)
+		return (old);
+	if (size > 0)
+		while ((src[++i] != '\0') && (i < (int)(size - 1)))
+			dst[i] = src[i];
+	dst[i] = '\0';
+	return (old);
+}
+
+int		ft_strcat(char *dst, const char *src)
+{
+	unsigned int	i;
+	unsigned int	j;
+	unsigned int	size;
+	char			*temp;
+
+	i = ft_strlen(dst);
+	j = ft_strlen(src);
+	size = i + j + 1;
+	temp = malloc(sizeof(char) * size);
+	ft_strlcpy(temp, dst, ft_strlen(dst) + 1);
+	j = 0;
+	while (i < size)
+	{
+		temp[i] = src[j];
+		i++;
+		j++;
+	}
+	ft_strlcpy(dst, temp, ft_strlen(temp) + 1);
+	free(temp);
+	return(TRUE);
 }

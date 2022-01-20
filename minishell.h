@@ -6,7 +6,7 @@
 /*   By: ocarlos- <ocarlos-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/17 23:16:23 by ocarlos-          #+#    #+#             */
-/*   Updated: 2022/01/17 19:09:24 by ocarlos-         ###   ########.fr       */
+/*   Updated: 2022/01/18 23:20:41 by ocarlos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,7 @@ size_t	ft_strlcat(char *dst, const char *src, size_t size);
 void	*ft_memcpy(void *dest, const void *src, size_t n);
 char	*ft_strdup(const char *s1);
 char	**ft_split(char const *s, char c);
+size_t	ft_strlcpy(char *dst, const char *src, size_t size);
+int		ft_strcat(char *dst, const char *src);
 
 #endif

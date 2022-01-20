@@ -6,7 +6,7 @@
 /*   By: ocarlos- <ocarlos-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/08 14:34:57 by ocarlos-          #+#    #+#             */
-/*   Updated: 2022/01/17 19:10:12 by ocarlos-         ###   ########.fr       */
+/*   Updated: 2022/01/20 23:09:58 by ocarlos-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,47 +18,48 @@ int	main(int argc, char *argv[], char *envp[])
 	int		wstatus;
 	int		i;
 
-	
-	
 	if (argv[1] == NULL)
 		argc = argc - 1;		
 
 	signal(SIGINT, SIG_IGN);  // disables ctrl+c
 
-
 	// TESTE HASHTABLE
 	char	**dirpath;
-	//char	*sizeenvpath;
-	char	*env;
+	int		dc;  // dircount
 	char	filepath[256];
 	DIR		*dp;
 	struct	dirent *dir;
 	struct	stat statbuf;
-	
 
-	i = 0;
-	env = strdup(getenv("PATH"));
-	dirpath = ft_split(env, ':');
-	while (dirpath != NULL)
+	dc = 0;
+	dirpath = ft_split(getenv("PATH"), ':');
+	while (dirpath[dc] != NULL)
 	{
-		if ((dp = opendir(dirpath[i])) != NULL)
+		if ((dp = opendir(dirpath[dc])) != NULL)
 		{
+			printf("-----------%s\n", dirpath[dc]);
 			while ((dir = readdir(dp)))
 			{
 				if (dir->d_ino != 0)
 				{
-					strcpy(filepath, dirpath[i]);
-					strcat(filepath, "/");
-					strcat(filepath, dir->d_name);
+					ft_strlcpy(filepath, dirpath[dc], ft_strlen(dirpath[dc]) + 1);
+					ft_strcat(filepath, "/");
+					ft_strcat(filepath, dir->d_name);
 					if (lstat(filepath, &statbuf) >= 0)
+					{
 						if (S_ISREG(statbuf.st_mode))
+						{
 							if (access(filepath, X_OK) == 0)
+							{
 								printf("insert %s in hash\n", dir->d_name); //hashinsert(d->d_name, filepath);
+							}
+						}
+					}
 				}
 			}
 			closedir(dp);
 		}
-		i++;
+		dc++;
 	}
 	
 	// FIM TESTE HASHTABLE
@@ -110,6 +111,9 @@ int	main(int argc, char *argv[], char *envp[])
 			{
 				free(d.input);
 				free(d.args);
+				while (dc >= 0)
+					free(dirpath[dc--]);
+				free(dirpath);
 				return (0);
 			}
 
